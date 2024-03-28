@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exemplo de funções</title>
+</head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+  }
+  .button {
+    user-select: none;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #3498db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    color: white;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    animation: scaleButton 0.1s linear;
+  }
+  .button:hover {
+    background-color: #2980b9;
+  }
+  #timer {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  @keyframes scaleButton {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes changeColor {
+    0% {
+      background-color: #3498db;
+    }
+    50% {
+      background-color: #87CEEB; /* azul mais claro */
+    }
+    100% {
+      background-color: #3498db;
+    }
+  }
+
+</style>
+<body>
+    <div id="timer">Tempo Restante: 10</div>
+    <div class="container">
+       <div class="button" id="button">Clique Aqui</div>
+    </div>
+</body>
+<script>
+  
+let clicks = 0;
+let timer = 10;
+let timerInterval;
+
+const button = document.getElementById('button');
+const timerDisplay = document.getElementById('timer');
+
+function updateClicks() {
+  clicks++;
+}
+
+function updateTimerDisplay() {
+  timerDisplay.textContent = `Tempo Restante: ${timer}`;
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timer--;
+    updateTimerDisplay();
+    if (timer === 0) {
+      clearInterval(timerInterval);
+      endTest();
+    }
+  }, 1000);
+}
+
+function endTest() {
+  button.removeEventListener('click', handleClick);
+  button.style.cursor = 'default';
+  button.textContent = `Cliques: ${clicks}`;
+}
+
+function handleClick() {
+  if (!timerInterval) {
+    startTimer();
+  }
+  updateClicks();
+  button.classList.remove('animate');
+  void button.offsetWidth;
+  button.classList.add('animate');
+  button.style.width = `${button.offsetWidth + 10}px`;
+  button.style.height = `${button.offsetHeight + 10}px`;
+}
+
+button.addEventListener('click', handleClick);
+</script>
+
+</html>
